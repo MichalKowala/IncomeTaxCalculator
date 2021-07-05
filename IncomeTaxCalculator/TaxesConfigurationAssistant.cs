@@ -22,21 +22,21 @@ namespace IncomeTaxCalculator
             string json = JsonConvert.SerializeObject(taxes, Formatting.Indented);
             File.WriteAllText(filePath, json);
         }
+        
+        public List<Tax> ReadTaxesConfiguration(string filePath)
+        {
+            string text = File.ReadAllText(filePath);
+            List<Tax> taxes = JsonConvert.DeserializeObject<List<Tax>>(text);
+            return taxes;
+        }
         private List<Tax> GetDefaultTaxConfiguration()
         {
             List<Tax> defaultTaxesConfiguration = new List<Tax>() { };
             defaultTaxesConfiguration.Add(new Tax { Amount = 10000, TaxRate = 0 });
-            defaultTaxesConfiguration.Add(new Tax { Amount = 30000, TaxRate = 0.10 });
-            defaultTaxesConfiguration.Add(new Tax { Amount = 100000, TaxRate = 0.25 });
-            defaultTaxesConfiguration.Add(new Tax { Amount = 1000000, TaxRate = 0.40 });
+            defaultTaxesConfiguration.Add(new Tax { Amount = 30000, TaxRate = (decimal)0.10 });
+            defaultTaxesConfiguration.Add(new Tax { Amount = 100000, TaxRate = (decimal)0.25 });
+            defaultTaxesConfiguration.Add(new Tax { Amount = 1000000, TaxRate = (decimal)0.40 });
             return defaultTaxesConfiguration;
-        }
-        public List<Tax> ReadConfiguration()
-        {
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Taxes.json");
-            string text = File.ReadAllText(filePath);
-            List<Tax> taxes = JsonConvert.DeserializeObject<List<Tax>>(text);
-            return taxes;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace IncomeTaxCalculator
     public class Tax
     {
         public decimal Amount { get; set; }
-        public double TaxRate { get; set; }
+        public decimal TaxRate { get; set; }
     }
 }
