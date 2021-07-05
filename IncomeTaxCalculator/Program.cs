@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace IncomeTaxCalculator
 {
@@ -6,7 +8,11 @@ namespace IncomeTaxCalculator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Taxes.json");
+            TaxesConfigurationAssistant assistant = new TaxesConfigurationAssistant();
+            assistant.EnsureConfigurationFileExists(filePath);
+            List<Tax> taxes = assistant.ReadConfiguration();
+            Console.WriteLine();
         }
     }
 }
