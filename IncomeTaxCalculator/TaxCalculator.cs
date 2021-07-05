@@ -31,7 +31,7 @@ namespace IncomeTaxCalculator
                     }
                 }
             }
-            return paidTax;
+            return Math.Floor(paidTax);
         }
     }
 }

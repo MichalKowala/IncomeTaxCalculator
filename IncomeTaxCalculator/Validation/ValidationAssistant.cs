@@ -14,7 +14,7 @@ namespace IncomeTaxCalculator.Validation
             Console.WriteLine("Znaleziono błędy:");
             foreach (var e in result)
                 Console.WriteLine(e.ErrorMessage);
-
+            Console.WriteLine("Popraw błędy i spróbuj ponownie");
         }
     }
 }
