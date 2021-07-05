@@ -11,8 +11,6 @@ namespace IncomeTaxCalculator
     {
         public TaxValidator()
         {
-            RuleFor(x => x.Amount).LessThanOrEqualTo(1000000)
-                .WithMessage("Próg kwoty nie możę być większy niż 1000000 (podano {PropertyValue})");
 
             RuleFor(x => x.Amount).GreaterThan(0)
                 .WithMessage("Próg kwoty musi być większy od zera (podano {PropertyValue})");

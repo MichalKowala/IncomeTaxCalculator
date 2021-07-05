@@ -11,7 +11,7 @@ namespace IncomeTaxCalculator
 {
     class TaxesConfigurationAssistant
     {
-        public void EnsureConfigurationFileExists(string filePath)
+        private void EnsureConfigurationFileExists(string filePath)
         {
             if (!File.Exists(filePath))
                 ApplyDefaultConfiguration(filePath);
@@ -25,8 +25,11 @@ namespace IncomeTaxCalculator
         
         public List<Tax> ReadTaxesConfiguration(string filePath)
         {
+            EnsureConfigurationFileExists(filePath);
             string text = File.ReadAllText(filePath);
             List<Tax> taxes = JsonConvert.DeserializeObject<List<Tax>>(text);
+            //"Najwyższy przedział nie ma górnego limitu dochodu"
+            taxes.OrderByDescending(x => x.TaxRate).First().Amount = Decimal.MaxValue;
             return taxes;
         }
         private List<Tax> GetDefaultTaxConfiguration()
