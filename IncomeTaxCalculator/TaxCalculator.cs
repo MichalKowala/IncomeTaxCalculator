@@ -12,23 +12,28 @@ namespace IncomeTaxCalculator
         {
             taxThresholds = taxThresholds.OrderBy(x => x.Amount).ToList();
             decimal paidTax = 0;
-            decimal taxedAmount = 0;
+            decimal taxedAmountTotal = 0;
+
             for (int i = 0; i < taxThresholds.Count; i++)
             {
-                if (untaxedAmount != 0)
+                decimal upperBoundary = taxThresholds[i].Amount;
+                decimal lowerBoundary;
+                if (i == 0)
+                    lowerBoundary = 0;
+                else
+                    lowerBoundary = taxThresholds[i - 1].Amount;
+                decimal rate = taxThresholds[i].TaxRate;
+
+                if (untaxedAmount >= upperBoundary)
                 {
-                    if (untaxedAmount >= taxThresholds[i].Amount)
-                    {
-                        paidTax = paidTax + ((taxThresholds[i].Amount - taxedAmount) * taxThresholds[i].TaxRate);
-                        untaxedAmount = untaxedAmount - taxThresholds[i].Amount;
-                        taxedAmount = taxedAmount + taxThresholds[i].Amount;
-                    }
-                    else
-                    {
-                        paidTax = paidTax + (untaxedAmount * taxThresholds[i].TaxRate);
-                        taxedAmount = taxedAmount + untaxedAmount;
-                        untaxedAmount = 0;
-                    }
+                    paidTax = paidTax + ((upperBoundary - lowerBoundary) * rate);
+                    taxedAmountTotal = taxedAmountTotal + (upperBoundary - lowerBoundary);
+                    untaxedAmount = untaxedAmount - (upperBoundary - lowerBoundary);
+                }
+                else
+                {
+                    paidTax = paidTax + (untaxedAmount * rate);
+                    break;
                 }
             }
             return Math.Floor(paidTax);
