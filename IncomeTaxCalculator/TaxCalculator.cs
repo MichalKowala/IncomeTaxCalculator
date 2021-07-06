@@ -24,7 +24,7 @@ namespace IncomeTaxCalculator
                     lowerBoundary = taxThresholds[i - 1].Amount;
                 decimal rate = taxThresholds[i].TaxRate;
 
-                if (untaxedAmount >= upperBoundary)
+                if (untaxedAmount >= (upperBoundary-lowerBoundary))
                 {
                     paidTax = paidTax + ((upperBoundary - lowerBoundary) * rate);
                     taxedAmountTotal = taxedAmountTotal + (upperBoundary - lowerBoundary);
